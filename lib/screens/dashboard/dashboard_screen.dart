@@ -1,6 +1,8 @@
+import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/components/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../constants.dart';
 import 'components/header.dart';
@@ -12,6 +14,8 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: context.read<MenuController>().scaffoldKey,
+      drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           children: [

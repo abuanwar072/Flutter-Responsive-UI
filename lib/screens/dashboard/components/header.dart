@@ -1,6 +1,8 @@
+import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 
@@ -13,6 +15,13 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        if (!Responsive.isDesktop(context))
+          IconButton(
+            onPressed: () {
+              context.read<MenuController>().controlMenu();
+            },
+            icon: Icon(Icons.menu),
+          ),
         Text(
           "Dashboard",
           style: Theme.of(context).textTheme.headline6,
