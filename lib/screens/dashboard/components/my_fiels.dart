@@ -1,4 +1,5 @@
 import 'package:admin/models/MyFiles.dart';
+import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -11,6 +12,8 @@ class MyFiels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
+
     return Column(
       children: [
         Row(
@@ -34,18 +37,43 @@ class MyFiels extends StatelessWidget {
           ],
         ),
         SizedBox(height: defaultPadding),
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: demoMyFiels.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: defaultPadding,
-            childAspectRatio: 1.4,
+        Responsive(
+          mobile: MyFilesGridView(
+            crossAxisCount: _size.width < 650 ? 2 : 4,
+            childAspectRatio: _size.width < 650 ? 1.3 : 1,
+            // childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
           ),
-          itemBuilder: (context, index) =>
-              FileInfoCard(info: demoMyFiels[index]),
-        ),
+          desktop: MyFilesGridView(
+            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+          ),
+        )
       ],
+    );
+  }
+}
+
+class MyFilesGridView extends StatelessWidget {
+  const MyFilesGridView({
+    Key key,
+    this.crossAxisCount = 4,
+    this.childAspectRatio = 1,
+  }) : super(key: key);
+
+  final int crossAxisCount;
+  final double childAspectRatio;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemCount: demoMyFiels.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        mainAxisSpacing: defaultPadding,
+        crossAxisSpacing: defaultPadding,
+        childAspectRatio: childAspectRatio,
+      ),
+      itemBuilder: (context, index) => FileInfoCard(info: demoMyFiels[index]),
     );
   }
 }

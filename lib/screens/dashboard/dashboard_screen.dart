@@ -1,3 +1,4 @@
+import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +15,11 @@ class DashboardScreen extends StatelessWidget {
       body: SafeArea(
         child: Row(
           children: [
-            Expanded(
-              // flex: 1, (default)
-              child: SideMenu(),
-            ),
+            if (Responsive.isDesktop(context))
+              Expanded(
+                // flex: 1, (default)
+                child: SideMenu(),
+              ),
             Expanded(
               flex: 5,
               child: SingleChildScrollView(
@@ -35,15 +37,21 @@ class DashboardScreen extends StatelessWidget {
                             children: [
                               MyFiels(),
                               SizedBox(height: defaultPadding),
-                              RecentFiles()
+                              RecentFiles(),
+                              if (Responsive.isMobile(context))
+                                SizedBox(height: defaultPadding),
+                              if (Responsive.isMobile(context))
+                                // Sorry for wrong spelling
+                                StarageDetails(),
                             ],
                           ),
                         ),
                         SizedBox(width: defaultPadding),
-                        Expanded(
-                          flex: 2,
-                          child: StarageDetails(),
-                        ),
+                        if (!Responsive.isMobile(context))
+                          Expanded(
+                            flex: 2,
+                            child: StarageDetails(),
+                          ),
                       ],
                     )
                   ],
